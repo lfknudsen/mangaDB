@@ -1,0 +1,84 @@
+{% extends "basic_layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% include "header.html" %}
+    <p>Series:</p>
+    <table class="table list">
+        <thead>
+            <tr>
+                <th scope="col"><a href="/series/sort/name, series_year">Series Name</a></th>
+                <th scope="col">Authors</th>
+                <th scope="col"><a href="/series/sort/owned">Owned</a></th>
+                <th scope="col"><a href="/series/sort/rating">Rating</a></th>
+                <th scope="col"><a href="/series/sort/language">Language</a></th>
+                <th scope="col"><a href="/series/sort/demographic">Demographic</a></th>
+                <th scope="col"><a href="/series/sort/publisher">Publisher</a></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in series %}
+            <tr>
+                <td><a href="/series/details/{{s.name}}/{{s.series_year}}">{{s.name}} ({{s.series_year}})</a></td>
+                <td>{% for a in s.authors %}
+                    <a href="/series/filter/author:{{a}}">{{a}}</a><br>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="/volumes/{{s.name}}/{{s.series_year}}">{{s.volumes}}</a>
+                </td>
+                <td>
+                    {% if s.rating > 0 %}
+                        {{s.rating}}/10
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="/series/filter/language:{{s.language}}">{{s.language}}</a>
+                </td>
+                <td>
+                    <a href="/series/filter/demographic:{{s.demographic}}">{{s.demographic}}</a>
+                </td>
+                <td>
+                    <a href="/series/filter/publisher:{{s.publisher}}">{{s.publisher}}</a>
+                </td>
+                <td>
+                    <form action="/series/details/{{s.name}}/{{s.series_year}}" method="post">
+                        <input type="hidden" value="{{s.name}}" name="name">
+                        <input type="hidden" value="{{s.series_year}}" name="series_year">
+                        <input type="submit" value="...">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Add series:</p>
+    <table class="table formula">
+        <thead>
+            <tr>
+                <th scope="col">Name<span style="color:red">*</span></th>
+                <th scope="col">Year<span style="color:red">*</span></th>
+                <th scope="col">Author (max 1)</th>
+                <th scope="col">Language</th>
+                <th scope="col">Demographic</th>
+                <th scope="col">Publisher</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+        <form action="/series/add" method="post">
+            <tr>
+                <td><input type="text" name="name" value="" class="wide"></td>
+                <td><input type="text" name="series_year" value="" class="narrow"></td>
+                <td><input type="text" name="author" value="" class="wide"></td>
+                <td><input type="text" name="language" value="" class="narrow"></td>
+                <td><input type="text" name="demographic" value="" class="narrow"></td>
+                <td><input type="text" name="publisher" value="" class="narrow"></td>
+                <td><input type="submit" value="Add series"><input type="reset"></td>
+            </tr>
+        </form>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

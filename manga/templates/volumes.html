@@ -1,0 +1,83 @@
+{% extends "basic_layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% include "header.html" %}
+    <p>Full Collection:</p>
+    <table class="table list">
+        <thead>
+            <tr>
+                <th scope="col">Series</th>
+                <th scope="col">Entry</th>
+                <th scope="col">Authors</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for v in volumes %}
+        <tr>
+            <td><a href="/series/details/{{v.name}}/{{v.series_year}}/">{{v.name}} ({{v.series_year}})</a></td>
+            <td>{{v.entry}}</td>
+            <td>{% for a in v.authors %}
+                <a href="/series/filter/author:{{a}}">{{a}}</a><br>
+                {% endfor %}</td>
+            <td>
+            <form action="/volumes/delete" method="post">
+                <input type="hidden" value="{{v.name}}" name="name">
+                <input type="hidden" value="{{v.series_year}}" name="series_year">
+                <input type="hidden" value="{{v.entry}}" name="entry">
+                <input type="submit" value="X">
+            </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br><br><br>
+    <p>Add volume:</p>
+    <table class="table formula">
+    <thead>
+        <tr>
+            <th scope="col">Series Name<span style="color:red">*</span></th>
+            <th scope="col">Series Year<span style="color:red">*</span></th>
+            <th scope="col">Entry<span style="color:red">*</span></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+    <form action="/volumes/add" method="post">
+        <tr>
+            <td><input type="text" name="name" value="" class="wide"></td>
+            <td><input type="text" name="series_year" value="" class="narrow"></td>
+            <td><input type="number" name="entry" value="1" class="narrow" min="1"></td>
+            <td><input type="submit" value="Add volume"></td>
+        </tr>
+    </form>
+    </tbody>
+    </table>
+
+    <p>Add multiple:</p>
+    <table class="table formula">
+        <thead>
+            <tr>
+                <th scope="col">Series Name<span style="color:red">*</span></th>
+                <th scope="col">Series Year<span style="color:red">*</span></th>
+                <th scope="col">First entry<span style="color:red">*</span></th>
+                <th scope="col">Latest entry<span style="color:red">*</span></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <form action="/volumes/add/multiple" method="post">
+                <tr>
+                    <td><input type="text" name="name" value="" class="wide"></td>
+                    <td><input type="text" name="series_year" value="" class="narrow"></td>
+                    <td><input type="number" name="start_entry" value="1" class="narrow" min="1"></td>
+                    <td><input type="number" name="last_entry" value="1" class="narrow" min="1"></td>
+                    <td><input type="submit" value="Add volumes"></td>
+                </tr>
+            </form>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

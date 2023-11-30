@@ -1,0 +1,79 @@
+{% extends "basic_layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% include "header.html" %}
+    <p>Edit {{table}}:</p>
+    <table class="table formula">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                {% if table == "Demographics" %}
+                    <th scope="col">Description</th>
+                {% endif %}
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% if table == "Demographics" %}
+                <form action="/demographics/edit" method="post">
+                    <td><input type="text" value="{{data[0]}}" name="demo"></td>
+                    <td><input type="text" value="{{data[1]}}" name="desc"></td>
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Confirm"></td>
+                </form>
+                <form action="/demographics/delete" method="post">
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                {% endif %}
+                {% if table == "Languages" %}
+                <form action="/languages/edit" method="post">
+                    <td><input type="text" value="{{data[0]}}" name="language"></td>
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Confirm"></td>
+                </form>
+                <form action="/languages/delete" method="post">
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                {% endif %}
+                {% if table == "Publishers" %}
+                <form action="/publishers/edit" method="post">
+                    <td><input type="text" value="{{data[0]}}" name="publisher"></td>
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Confirm"></td>
+                </form>
+                <form action="/publishers/delete" method="post">
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                {% endif %}
+                {% if table == "Authors" %}
+                <form action="/authors/edit" method="post">
+                    <td><input type="text" value="{{data[0]}}" name="author"></td>
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Confirm"></td>
+                </form>
+                <form action="/authors/delete" method="post">
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                {% endif %}
+                {% if table == "Genres" %}
+                <form action="/genres/edit" method="post">
+                    <td><input type="text" value="{{data[0]}}" name="genre"></td>
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Confirm"></td>
+                </form>
+                <form action="/genres/delete" method="post">
+                    <input type="hidden" value="{{data[0]}}" name="key">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

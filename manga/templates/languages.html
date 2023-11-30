@@ -1,0 +1,49 @@
+{% extends "basic_layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% include "header.html" %}
+    <p>Languages:</p>
+    <table class="table list">
+        <thead>
+            <tr>
+                <th scope="col">Language</th>
+                <th scope="col">Series</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for l in languages %}
+            <tr>
+                <td><a href="/series/filter/language:{{l.language}}">{{l.language}}</a></td>
+                <td>{{l.series_count}}</td>
+                <td>
+                    <form action="/edit" method="post">
+                        <input type="hidden" value="Languages" name="table">
+                        <input type="hidden" value="{{l.language}}" name="data">
+                        <input type="submit" value="Edit">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Add language:</p>
+    <table class="table formula">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+          <form action="/languages/add" method="post">
+            <tr>
+                <td><input type="text" name="language" value="" class="wide"></td>
+                <td><input type="submit" value="Add language"></td>
+            </tr>
+        </form>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

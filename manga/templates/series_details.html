@@ -1,0 +1,274 @@
+{% extends "basic_layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% include "header.html" %}
+    <p><bf>{{series.name}} ({{series.series_year}}):</bf></p>
+    <input type="button" value="See volumes" onclick="window.location.href='/volumes/{{series.name}}/{{series.series_year}}'">
+    <br>
+    <br>
+    <table class="table formula">
+        <thead>
+            <th scope="col">Author(s)</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            {% for n in names %}
+            <tr>
+                <td><a href="/series/filter/author:{{n.name}}">{{n.name}}</a></td>
+                <td>
+                    <form action="/series/disconnect/author" method="post">
+                        <input type="hidden" value="{{series.name}}" name="series_name">
+                        <input type="hidden" value="{{series.series_year}}" name="series_year">
+                        <input type="hidden" value="{{n.name}}" name="author_name">
+                        <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from">
+                        <input type="submit" value="X">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <table class="table formula">
+        <thead>
+            <th scope="col">Edition</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            <tr>
+                {% if series.edition != None and series.edition != "" %}
+                    <td>
+                        {{series.edition}}
+                    </td>
+                    <td>
+                        <form action="/../series/edition/delete" method="post">
+                            <input type="hidden" value="{{series.name}}" name="series">
+                            <input type="hidden" value="{{series.series_year}}" name="series_year">
+                            <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                            <input type="submit" value="X">
+                        </form>
+                    </td>
+
+                {% else %}
+                    <form action="/../series/edition/add" method="post">
+                    <td>
+                        <input type="hidden" value="{{series.name}}" name="series">
+                        <input type="hidden" value="{{series.series_year}}" name="series_year">
+                        <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                        <input type="text" name="edition" class="wide">
+                    </td>
+                    <td>
+                        <input type="submit" value="+">
+                    </td>
+                    </form>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table formula">
+        <thead>
+            <th scope="col">Language</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            <tr>
+                {% if series.language != None and series.language != "" %}
+                    <td>
+                        <a href="/series/filter/language:{{series.language}}">{{series.language}}</a>
+                    </td>
+                    <td>
+                        <form action="/../series/language/disconnect" method="post">
+                            <input type="hidden" value="{{series.name}}" name="series">
+                            <input type="hidden" value="{{series.series_year}}" name="series_year">
+                            <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                            <input type="submit" value="X">
+                        </form>
+                    </td>
+
+                {% else %}
+                    <form action="/../series/language/connect" method="post">
+                    <td>
+                        <input type="hidden" value="{{series.name}}" name="series">
+                        <input type="hidden" value="{{series.series_year}}" name="series_year">
+                        <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                        <input type="text" name="language" class="wide">
+                    </td>
+                    <td>
+                        <input type="submit" value="+">
+                    </td>
+                    </form>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <th scope="col">Rating</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            <tr>
+                {% if series.rating != None and series.rating != "" and series.rating > 0 %}
+                    <td>
+                        {{series.rating}}/10
+                    </td>
+                    <td>
+                        <form action="/../series/rating/delete" method="post">
+                            <input type="hidden" value="{{series.name}}" name="series">
+                            <input type="hidden" value="{{series.series_year}}" name="series_year">
+                            <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                            <input type="submit" value="X">
+                        </form>
+                    </td>
+
+                {% else %}
+                    <form action="/../series/rating/add" method="post">
+                    <td>
+                        <input type="hidden" value="{{series.name}}" name="series">
+                        <input type="hidden" value="{{series.series_year}}" name="series_year">
+                        <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                        <input type="number" name="rating" class="narrow" min="0" max="10">
+                    </td>
+                    <td>
+                        <input type="submit" value="+">
+                    </td>
+                    </form>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <th scope="col">Demographic</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            <tr>
+                {% if series.demographic != None and series.demographic != "" %}
+                    <td>
+                        <a href="/series/filter/demographic:{{series.demographic}}">{{series.demographic}}</a>
+                    </td>
+                    <td>
+                        <form action="/../series/demographic/disconnect" method="post">
+                            <input type="hidden" value="{{series.name}}" name="series">
+                            <input type="hidden" value="{{series.series_year}}" name="series_year">
+                            <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                            <input type="submit" value="X">
+                        </form>
+                    </td>
+
+                {% else %}
+                    <form action="/../series/demographic/connect" method="post">
+                    <td>
+                        <input type="hidden" value="{{series.name}}" name="series">
+                        <input type="hidden" value="{{series.series_year}}" name="series_year">
+                        <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                        <input type="text" name="demographic" class="wide">
+                    </td>
+                    <td>
+                        <input type="submit" value="+">
+                    </td>
+                    </form>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table formula">
+        <thead>
+            <th scope="col">Publisher</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            <tr>
+                {% if series.publisher != None and series.publisher != "" %}
+                    <td>
+                        <a href="/series/filter/publisher:{{series.publisher}}">{{series.publisher}}</a>
+                    </td>
+                    <td>
+                        <form action="/../series/publisher/disconnect" method="post">
+                            <input type="hidden" value="{{series.name}}" name="series">
+                            <input type="hidden" value="{{series.series_year}}" name="series_year">
+                            <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                            <input type="submit" value="X">
+                        </form>
+                    </td>
+
+                {% else %}
+                    <form action="/../series/publisher/connect" method="post">
+                    <td>
+                        <input type="hidden" value="{{series.name}}" name="series">
+                        <input type="hidden" value="{{series.series_year}}" name="series_year">
+                        <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from_url">
+                        <input type="text" name="publisher" class="wide">
+                    </td>
+                    <td>
+                        <input type="submit" value="+">
+                    </td>
+                    </form>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table formula">
+        <thead>
+            <th scope="col">Genre(s)</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            {% for g in genres %}
+            <tr>
+                <td>
+                    <a href="/series/filter/genre:{{g}}">{{g}}</a>
+                </td>
+                <td>
+                    <form action="/series/disconnect/genre" method="post">
+                        <input type="hidden" value="{{series.name}}" name="series_name">
+                        <input type="hidden" value="{{series.series_year}}" name="series_year">
+                        <input type="hidden" value="{{g}}" name="genre_name">
+                        <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from">
+                        <input type="submit" value="X">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <p>Delete series?</p>
+    <form action="/series/delete" method="post">
+        <input type="hidden" value="{{series.name}}" name="name">
+        <input type="hidden" value="{{series.series_year}}" name="series_year">
+        <input type="submit" value="Delete this series">
+    </form>
+
+    <p>Add details to series:</p>
+    <table class="table formula">
+        <tbody>
+            <form action="/series/connect/author" method="post">
+            <tr>
+                <input type="hidden" name="name", value="{{series.name}}">
+                <input type="hidden" name="series_year" value="{{series.series_year}}">
+                <td><input type="text" name="author_name" value="" class="wide"></td>
+                <input type="hidden" value="/series/details/{{series.name}}/{{series.series_year}}" name="from">
+                <td><input type="submit" value="Add author"></td>
+            </tr>
+            </form>
+            <form action="/series/connect/genre" method="post">
+                <tr>
+                    <input type="hidden" name="name", value="{{series.name}}">
+                    <input type="hidden" name="series_year" value="{{series.series_year}}">
+                    <td><input type="text" name="genre_name" value="" class="wide"></td>
+                    <input type="hidden" value="/series/details/{series.name}}/{{series.series_year}}" name="from">
+                    <td><input type="submit" value="Add genre"></td>
+                </tr>
+            </form>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

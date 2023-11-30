@@ -1,0 +1,50 @@
+{% extends "basic_layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% include "header.html" %}
+    <p>Authors:</p>
+    <table class="table list">
+        <thead>
+            <tr>
+                <th scope="col">Author</th>
+                <th scope="col">Series</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in authors %}
+            <tr>
+                <td>
+                    <a href="/series/filter/author:{{a.author}}">{{a.author}}</a></td>
+                <td>{{a.series_count}}</td>
+                <td>
+                    <form action="/edit" method="post">
+                        <input type="hidden" value="Authors" name="table">
+                        <input type="hidden" value="{{a[0]}}" name="data">
+                        <input type="submit" value="Edit">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Add author:</p>
+    <table class="table formula">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+          <form action="/authors/add" method="post">
+            <tr>
+                <td><input type="text" name="name" value="" class="wide"></td>
+                <td><input type="submit" value="Add author"></td>
+            </tr>
+        </form>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

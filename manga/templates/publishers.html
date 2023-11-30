@@ -1,0 +1,49 @@
+{% extends "basic_layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% include "header.html" %}
+    <p>Publishers:</p>
+    <table class="table list">
+        <thead>
+            <tr>
+                <th scope="col">Publisher</th>
+                <th scope="col">Series</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in publishers %}
+            <tr>
+                <td><a href="/series/filter/publisher:{{p.publisher}}">{{p.publisher}}</a></td>
+                <td>{{p.series_count}}</td>
+                <td>
+                    <form action="/edit" method="post">
+                        <input type="hidden" value="Publishers" name="table">
+                        <input type="hidden" value="{{p.publisher}}" name="data">
+                        <input type="submit" value="Edit">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Add publisher:</p>
+    <table class="table formula">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+          <form action="/publishers/add" method="post">
+            <tr>
+                <td><input type="text" name="publisher" value="" class="wide"></td>
+                <td><input type="submit" value="Add publisher"></td>
+            </tr>
+        </form>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

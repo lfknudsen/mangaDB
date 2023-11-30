@@ -1,0 +1,10 @@
+Buttons to filter based on user-defined criteria.
+
+Functions and triggers instead of if/else statements to showcase more SQL knowledge, perhaps.
+
+Nicer-looking UI.
+
+Allow user to sort series based on something other than name, year of series.
+    Click "Author" at the top of the table to sort by Author for example.
+
+Search bar

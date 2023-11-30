@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
+    <script>
+        $( function() {
+          $( "#datepicker" ).datepicker();
+          $( "#datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+          $('.timepicker').timepicker({
+                timeFormat: 'HH:mm:ss',
+                interval: 15,
+                minTime: '8',
+                maxTime: '21:00',
+                defaultTime: '8',
+                startTime: '08:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });
+        } );
+    </script>
+    {% if title %}
+        <title>Louis' Sandbox - {{ title }}</title>
+    {% else %}
+        <title>Louis' Sandbox</title>
+    {% endif %}
+</head>
+<body>
+    
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+    </main>
+</body>
+<style>
+  a:link {
+    color: black;
+    text-decoration: none;
+  }
+  
+  a:visited {
+    color: black;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: rgb(70, 62, 56);
+    text-decoration: none;
+  }
+  
+  a:active {
+    color: rgb(50, 49, 49);
+    text-decoration: none;
+  }
+
+  .list tr:nth-child(even) {
+    background-color: #ffffff;
+  }
+
+  .list tr:nth-child(odd), .formula tr {
+    background-color: aliceblue;
+  }
+
+  .table_background {
+    display: flex;
+    background-color: white;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-bottom: 10vh;
+    margin-top: 5vh;
+    box-shadow: 0px 0px 10px rgba(114, 114, 113, 0.5);
+    border-radius: 15px;
+  }
+
+  table td {
+    padding: 8px 8px 8px 20px;
+  }
+
+  table {
+    font-family: futura-pt, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    border-collapse: collapse;
+    width: auto;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  </style>
+</html>
